@@ -1,10 +1,10 @@
-(ns levelwhen.core)
+(ns levelwhen.core
+  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require [cljs.core.async :refer [put! chan <!]]))
 
-(comment ; execute this to activate the node cljs repl
-  (require '[cljs.repl.node :as node])
-  (node/run-node-nrepl))
+(def leveldb (js/require "levelup"))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(def db (leveldb ".db"))
+(defn -main []
+  (.put db "name" "'levelup!'")
+  (.get db "name" print))
